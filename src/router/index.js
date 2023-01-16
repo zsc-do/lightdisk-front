@@ -1,26 +1,73 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import layout from '../layout/layout.vue'
+import disk from '../views/disk/disk.vue'
+import menu from '../views/menu/menu.vue'
+import login from '../views/login/login.vue'
+import index from '../views/index/index.vue'
+import share from '../views/share/share.vue'
+import register from '../views/register/register.vue'
+import userInfo from '../views/user/userInfo.vue'
+import sign from '../views/sign/sign.vue'
+import oauthRedirect from '../views/oauth/redirect.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'layout',
+    component: layout,
+    children:[
+      {
+        path:'index',
+        name:'index',
+        component:index
+      },
+      {
+        path:'menu',
+        name:'menu',
+        component:menu
+      },
+      {
+        path:'disk',
+        name:'disk',
+        component:disk
+      },
+      {
+        path:'userInfo',
+        name:'userInfo',
+        component:userInfo
+      },
+      {
+        path:'sign',
+        name:'sign',
+        component:sign
+      }
+    ]
+  },{
+    path:'/login',
+    name:'login',
+    component:login
+  },{
+    path:'/share',
+    name:'share',
+    component:share
+  },{
+    path:'/register',
+    name:'register',
+    component:register
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path:'/oauth/redirect',
+    name:'oauthRedirect',
+    component:oauthRedirect
+  },
+  
 ]
 
 const router = new VueRouter({
+  mode: 'history',
   routes
 })
 
