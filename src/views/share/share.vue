@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="shareBoard">
     <div v-if="shareOption.exFlag">
 
         <!-- 分享文件目录 -->
@@ -90,8 +90,8 @@
     </div>
 
 
-    <div class="lockform">
-            <el-form  :inline="true" v-if="!shareOption.exFlag" :model="shareOption">
+    <div v-if="!shareOption.exFlag" class="lockform">
+            <el-form  :inline="true"  :model="shareOption">
                 <el-form-item label="提取码">
                     <el-input v-model="shareOption.exCode"></el-input>
                 </el-form-item>
@@ -335,5 +335,13 @@ export default {
 	left: 0;
 	right: 0;
 	bottom: 0;
+  }
+
+
+  .shareBoard{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
   }
 </style>

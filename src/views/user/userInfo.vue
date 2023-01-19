@@ -6,14 +6,23 @@
         <el-descriptions-item label="用户类型">{{userInfo.githubId === null?"系统创建用户": "github用户"}}</el-descriptions-item>
         <el-descriptions-item label="已用容量">{{storageSize}}</el-descriptions-item>
         <el-descriptions-item label="总容量">{{totalSize}}</el-descriptions-item>
-        <el-descriptions-item label="总容量">
+        <el-descriptions-item label="容量比">
             <el-progress type="circle" :percentage="storagePercentage"></el-progress>
 
         </el-descriptions-item>
 
     </el-descriptions>
 
-  
+    <div v-if="userInfo.githubId === null" style="margin-top: 15px; width: 300px;">
+        <el-input placeholder="请输入新密码" v-model="newPassword">
+            <template slot="append">
+                <el-button @click="changePassword" type="primary">修改密码</el-button>
+            </template>
+        </el-input>
+    </div>
+
+    <br/>
+    <el-button @click="logout" type="danger" round>退出登录</el-button>
   
   </div>
 </template>
@@ -24,11 +33,34 @@ export default {
     data(){
         return {
             userInfo:{},
+            newPassword:''
         }
     },
 
     methods:{
 
+
+        changePassword(){
+            this.$http.apiGet(`/SysUser/changePassword?password=${this.newPassword}`,{ headers: {'Authorization':  localStorage.getItem('token')}})
+            .then((res)=>{
+                if(res === "ok"){
+                    this.$message({
+                        message: '密码修改成功',
+                        type: 'success'
+                    });
+                }else{
+                    this.$message.error('密码修改失败');
+                }
+            
+                this.userInfo = res
+            })
+        },
+
+        logout(){
+            localStorage.setItem("token", "");
+
+            this.$router.push('/login')
+        }
     },
 
     computed: {
@@ -82,7 +114,9 @@ export default {
 
             return Math.trunc(sizeMB)  + "MB";
 
-        }
+        },
+
+
     },
 
     mounted(){

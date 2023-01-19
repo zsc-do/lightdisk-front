@@ -86,7 +86,7 @@
                     <div class="fileName">{{ file.fileName.length > 8? file.fileName.substr(0,9) + '...': file.fileName}}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div class="chooseFile" v-else-if="['rar','zip'].indexOf(renderSuffix(file.fileName)) !== -1">
@@ -94,7 +94,7 @@
                     <div class="fileName">{{ file.fileName.length > 8? file.fileName.substr(0,9) + '...': file.fileName}}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div class="chooseFile" v-else-if="['doc','docx'].indexOf(renderSuffix(file.fileName)) !== -1">
@@ -102,7 +102,7 @@
                     <div class="fileName">{{ file.fileName.length > 8? file.fileName.substr(0,9) + '...': file.fileName}}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div class="chooseFile" v-else-if="['pdf'].indexOf(renderSuffix(file.fileName)) !== -1">
@@ -110,7 +110,7 @@
                     <div class="fileName">{{ file.fileName.length > 8? file.fileName.substr(0,9) + '...': file.fileName}}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div class="chooseFile" v-else-if="['xlsx','xls'].indexOf(renderSuffix(file.fileName)) !== -1">
@@ -118,7 +118,7 @@
                     <div class="fileName">{{ file.fileName.length > 8? file.fileName.substr(0,9) + '...': file.fileName}}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div class="chooseFile" v-else-if="['mp4'].indexOf(renderSuffix(file.fileName)) !== -1">
@@ -127,7 +127,7 @@
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
                         <el-button type="text"  @click="watchVideo(file.fileId)">播放</el-button>
-                        <el-button type="text">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
                 <div   class="chooseFile" v-else>
@@ -135,7 +135,7 @@
                     <div class="fileName">{{ file.fileName }}</div>
                     <div class="fileOp">
                         <el-button type="text"  @click="downloadFile(file.fileId)">下载</el-button>
-                        <el-button type="text" @click="showFiledetail(file.fileId)">查看</el-button>
+                        <el-button type="text" @click="filedetail(file.fileId)">查看</el-button>
                     </div>
                 </div>
             </div>
@@ -285,7 +285,7 @@ export default {
                 this.shareSelectVisible = false;
                 
                 this.$alert(`你的分享链接:
-                            http://localhost:8080/#/share?shareCode=${res}`, '可以分享了', {
+                            http://localhost:8080/share?shareCode=${res}`, '可以分享了', {
                     confirmButtonText: '确定'
                 });
             })
@@ -365,7 +365,29 @@ export default {
 
         },
 
-        showFiledetail(fileId){
+        filedetail(fileId){
+            this.$http.apiGet(`/WpFile/fileDetail?fileId=${fileId}`,{ headers: {'Authorization':  localStorage.getItem('token')}})
+            .then((res)=>{
+
+
+                let sizeMB = res.fileSize / 1024 / 1024
+
+                if(sizeMB >= 1024){
+                    sizeMB =  Math.trunc(sizeMB / 1024)  + "GB";
+                }else{
+                    sizeMB = Math.trunc(sizeMB)  + "MB";
+                }
+
+
+
+                this.$notify({
+                    title: '文件信息',
+                    message: `文件名:${res.fileName}
+                              文件大小:${sizeMB}`,
+                    offset: 100
+                });
+                
+            });
 
         },
 

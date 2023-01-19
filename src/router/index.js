@@ -20,11 +20,6 @@ const routes = [
     component: layout,
     children:[
       {
-        path:'index',
-        name:'index',
-        component:index
-      },
-      {
         path:'menu',
         name:'menu',
         component:menu
@@ -62,6 +57,11 @@ const routes = [
     path:'/oauth/redirect',
     name:'oauthRedirect',
     component:oauthRedirect
+  },
+  {
+    path:'/index',
+    name:'index',
+    component:index
   },
   
 ]

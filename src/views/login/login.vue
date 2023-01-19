@@ -63,12 +63,17 @@ import githubIconImg from '/src/assets/github.png'
         this.$http.apiPost("/Login/doLogin",{UserName:this.form.username,Password:this.form.password}).then((token)=>{
         
 
+            if(token === '500'){
+              this.$message.error('登录信息有误');
+              return;
+            }
+            
             localStorage.setItem("token", "Bearer " + token);
 
             if(this.$route.query.shareCode){
               this.$router.push('/share?shareCode=' + this.$route.query.shareCode)
             }else{
-              this.$router.push('/index')
+              this.$router.push('/disk')
             }
             
         })
@@ -85,7 +90,7 @@ import githubIconImg from '/src/assets/github.png'
   }
 </script>
 
-<style>
+<!-- <style>
 body{
   background-image: url('/src/assets/bg-01.jpg');
    /* 背景图重复方式 */
@@ -95,7 +100,7 @@ body{
    background-size: cover;
 }
 
-</style>
+</style> -->
 
 <style scoped>
 *{
