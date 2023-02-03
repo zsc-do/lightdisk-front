@@ -51,7 +51,7 @@
               type: 'success'
         });
 
-        this.$http.apiGet("/SysMenu/getAuthMenu").then((res)=>{
+        this.$http.apiGet("/SysMenu/getAuthMenu",{ headers: {'Authorization':  localStorage.getItem('token')}}).then((res)=>{
 
           this.menus = res;
 

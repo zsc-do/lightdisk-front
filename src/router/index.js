@@ -18,26 +18,39 @@ const routes = [
     path: '/',
     name: 'layout',
     component: layout,
+    redirect: "/disk",
     children:[
       {
         path:'menu',
         name:'menu',
-        component:menu
+        component:menu,
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path:'disk',
         name:'disk',
-        component:disk
+        component:disk,
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path:'userInfo',
         name:'userInfo',
-        component:userInfo
+        component:userInfo,
+        meta: {
+          requireAuth: true
+        }
       },
       {
         path:'sign',
         name:'sign',
-        component:sign
+        component:sign,
+        meta: {
+          requireAuth: true
+        }
       }
     ]
   },{
@@ -66,9 +79,34 @@ const routes = [
   
 ]
 
+
+
+
+
+
 const router = new VueRouter({
   mode: 'history',
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    const isLogin = localStorage.getItem('token');
+    if (isLogin) {
+      next();
+    } else {
+      next('login');
+      return;
+    }
+    
+  }else {
+    next();
+  }
+  
+
+});
+
+
 
 export default router

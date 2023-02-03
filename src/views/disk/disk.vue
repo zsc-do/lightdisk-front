@@ -466,6 +466,17 @@ export default {
                 let finalFolderTree = this.renderFolderTree(res.childFolder[0], rootNode[0]);
 
                 this.folderTree = [finalFolderTree]
+
+                this.curFolder = this.folderTree[0].id
+
+
+                this.$http.apiGet("/WpFile/showFile?pid=" + this.curFolder,{ headers: {'Authorization':  localStorage.getItem('token')}}).then((res)=>{
+
+                    this.curFiles = res;
+
+                })
+
+
                
         });
 

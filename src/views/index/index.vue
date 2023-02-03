@@ -18,7 +18,7 @@ export default {
 
 <style>
 
-div {
+/* div {
         font-size: 40px;
     }
 
@@ -58,5 +58,5 @@ div {
         left: 0;
 
         position: absolute;
-    }
+    } */
 </style>

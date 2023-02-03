@@ -15,7 +15,7 @@
           </el-form-item>
 
           <el-form-item label="密码">
-              <el-input v-model="form.password"></el-input>
+              <el-input v-model="form.password" show-password></el-input>
           </el-form-item>
     
           <el-form-item>
@@ -90,7 +90,7 @@ import githubIconImg from '/src/assets/github.png'
   }
 </script>
 
-<!-- <style>
+<style>
 body{
   background-image: url('/src/assets/bg-01.jpg');
    /* 背景图重复方式 */
@@ -100,7 +100,7 @@ body{
    background-size: cover;
 }
 
-</style> -->
+</style>
 
 <style scoped>
 *{

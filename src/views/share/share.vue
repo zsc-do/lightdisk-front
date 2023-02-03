@@ -177,12 +177,13 @@ export default {
             for (let i = 0; i < curNode.childFolder.length; i++) {
 
                 let node = {};
+                debugger;
                 node.label = curNode.childFolder[i].fileName;
                 node.id = curNode.childFolder[i].fileId;
                 node.children = []
 
 
-                this.renderFolderTree(curNode.childFolder[i], node)
+                this.renderFolderTree2(curNode.childFolder[i], node)
 
 
                 newCurNode.children.push(node);
